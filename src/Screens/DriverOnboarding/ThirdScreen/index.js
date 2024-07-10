@@ -1,17 +1,47 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { setOnboarded } from '../../../../redux/slicers/userSlicer';
 import { useDispatch } from 'react-redux';
+import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { db } from '../../../../firebaseConfig'; // Adjust the path to your firebaseConfig file
 
 const ThirdScreen = ({ navigation, route }) => {
-  const { fullName, phoneNumber, licenseImage, insuranceImage } = route.params;
+  const { fullName, phoneNumber, licenseImage, insuranceImage, gender, age, city, addressLine1, country, postalCode, state } = route.params;
   const [carMake, setCarMake] = useState('');
   const [carModel, setCarModel] = useState('');
   const [carYear, setCarYear] = useState('');
   const dispatch = useDispatch();
 
-  const handleNext = () => {
-    dispatch(setOnboarded(true));
+  const handleNext = async () => {
+    if (!carMake || !carModel || !carYear) {
+      Alert.alert('Error', 'All fields are required!');
+      return;
+    }
+
+    try {
+      await addDoc(collection(db, 'users'), {
+        fullName,
+        phoneNumber,
+        gender,
+        age,
+        city,
+        addressLine1,
+        country,
+        postalCode,
+        state,
+        licenseImage,
+        insuranceImage,
+        carMake,
+        carModel,
+        carYear,
+      });
+
+      dispatch(setOnboarded(true));
+      //navigation.navigate('Home'); // Adjust navigation as needed
+    } catch (error) {
+      console.error('Error adding document: ', error);
+      Alert.alert('Error', 'Something went wrong while saving your data.');
+    }
   };
 
   return (
@@ -56,7 +86,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     paddingHorizontal: 30,
-    paddingTop: 20, // Adjust top padding for header alignment
+    paddingTop: 20,
   },
   header: {
     marginTop: 24,

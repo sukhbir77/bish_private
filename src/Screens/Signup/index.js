@@ -235,7 +235,7 @@ const SignupScreen = () => {
               <Text style={[GlobalStyles.textMedium, { textAlign: "center" }]}>
                 Already Have an account?
               </Text>
-              <Pressable onPress={() => console.log("Fuck me")}>
+              <Pressable onPress={() => navigation.navigate("Login")}>
                 <Text style={[GlobalStyles.textMedium, { color: "#E94B3C" }]}>
                   Login
                 </Text>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { RadioButton } from 'react-native-paper';
 
 const BasicInformation = ({ navigation }) => {
@@ -14,8 +14,22 @@ const BasicInformation = ({ navigation }) => {
   const [state, setState] = useState('');
 
   const handleNext = () => {
-    // Validate input fields if needed
-    // Navigate to the next step
+    if (!fullName || !phoneNumber || !gender || !age || !city || !addressLine1 || !country || !postalCode || !state) {
+      Alert.alert('Missing Information', 'Please fill out all fields.');
+      return;
+    }
+
+    // Assuming you want to validate phone number and age format
+    if (!/^\d{10}$/.test(phoneNumber)) {
+      Alert.alert('Invalid Phone Number', 'Please enter a valid 10-digit phone number.');
+      return;
+    }
+
+    if (!/^\d+$/.test(age) || parseInt(age) < 18) {
+      Alert.alert('Invalid Age', 'Please enter a valid age (must be at least 18).');
+      return;
+    }
+
     navigation.navigate('Images', {
       fullName,
       phoneNumber,
@@ -128,7 +142,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     paddingHorizontal: 30,
-    paddingTop: 20, // Adjust top padding for header alignment
+    paddingTop: 20,
   },
   header: {
     marginTop: 24,
