@@ -4,11 +4,11 @@ import {
   createStackNavigator,
   CardStyleInterpolators,
 } from "@react-navigation/stack";
-import EditProfileScreen from "../Screens/EditProfile";
 import PrivacyPolicyScreen from "../Screens/Privacy";
 import NotificationScreen from "../Screens/Notifications";
 import ContactUsScreen from "../Screens/ContactUs";
 import DriverTab from "./driverTab";
+import EditProfileScreen from "../Screens/DriverScreens/ProfileEdit";
 
 const Stack = createStackNavigator();
 

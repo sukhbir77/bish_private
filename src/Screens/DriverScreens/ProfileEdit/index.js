@@ -4,8 +4,8 @@ import * as ImagePicker from 'expo-image-picker';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
 import { useDispatch, useSelector } from 'react-redux';
-import { db, storage } from '../../../firebaseConfig';
-import { selectUser, setUser } from '../../../redux/slicers/userSlicer';
+import { db, storage } from '../../../../firebaseConfig';
+import { selectUser, setUser } from '../../../../redux/slicers/userSlicer';
 
 const EditProfileScreen = ({ navigation }) => {
   const [fullName, setFullName] = useState('');
@@ -58,6 +58,8 @@ const EditProfileScreen = ({ navigation }) => {
 
     try {
       let imageUrl = image;
+      const userDocRef = doc(db, "users", user.uid);
+      const userDoc = await getDoc(userDocRef);
 
       if (image) {
         const imageRef = ref(storage, `images/${Date.now()}_${fullName}`);
@@ -67,19 +69,31 @@ const EditProfileScreen = ({ navigation }) => {
         imageUrl = await getDownloadURL(imageRef);
       }
 
-      const userDocRef = doc(db, "users", user.uid);
-      await setDoc(userDocRef, {
-        fullName,
-        email,
-        phoneNumber,
-        image: imageUrl,
-        role: "User"
-      });
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
 
-      const userCopy = { ...user, fullName, email, phoneNumber, image: imageUrl };
-      dispatch(setUser(userCopy));
-      Alert.alert('Success', 'Profile updated successfully!');
-      navigation.goBack();
+        await setDoc(userDocRef, {
+          ...userData,
+          fullName,
+          email,
+          phoneNumber,
+          image: imageUrl ? imageUrl : userData.image
+        });
+
+        const updatedUser = {
+          ...user,
+          fullName,
+          email,
+          phoneNumber,
+          image: imageUrl ? imageUrl : userData.image
+        };
+
+        dispatch(setUser(updatedUser));
+        Alert.alert('Success', 'Profile updated successfully!');
+        navigation.goBack();
+      } else {
+        Alert.alert('Error', 'User data not found.');
+      }
     } catch (error) {
       console.error('Error updating document: ', error);
       Alert.alert('Error', 'Something went wrong while saving your data.');
