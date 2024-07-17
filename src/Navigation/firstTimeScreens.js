@@ -10,7 +10,7 @@ import OnboardingScreenThree from "../Screens/Onboarding/ScreenThree";
 
 const Stack = createStackNavigator();
 
-const OnboardingNavigation = () => {
+const FirstTimeScreens = () => {
   return (
     <Stack.Navigator
       initialRouteName="OnboardingScreenOne"
@@ -36,6 +36,6 @@ const OnboardingNavigation = () => {
   );
 };
 
-export default OnboardingNavigation;
+export default FirstTimeScreens;
 
 const styles = StyleSheet.create({});

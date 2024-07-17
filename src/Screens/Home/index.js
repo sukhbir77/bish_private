@@ -35,10 +35,9 @@ const HomeScreen = ({ navigation }) => {
           <Ionicons name="search" size={24} color="#fff" />
         </Pressable>
       </View>
-      <MapView
+      {/* <MapView
         style={styles.map}
         mapType="standard"
-        zoomEnabled={true}
         initialCamera={initialCamera}
         initialRegion={{
           latitude: 28.3949,
@@ -52,7 +51,7 @@ const HomeScreen = ({ navigation }) => {
           title="Nepal"
           description="This is Nepal"
         />
-      </MapView>
+      </MapView> */}
       <ScrollView contentContainerStyle={styles.contentContainer}>
         <Text style={[GlobalStyles.textMedium, styles.sectionTitle]}>
           Quick Access

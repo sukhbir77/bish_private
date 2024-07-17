@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, Image, Pressable } from "react-native";
 import React from "react";
 import GlobalStyles from "../../Utils/GlobalStyles";
 import { useNavigation } from "@react-navigation/native";
+import translationText from "../../Utils/translations";
 
 const WelcomeScreen = () => {
   const navigation = useNavigation();
@@ -25,12 +26,8 @@ const WelcomeScreen = () => {
             GlobalStyles.textLarge,
             { marginTop: 24, marginBottom: 12, fontWeight: "500" },
           ]}
-        >
-          Welcome
-        </Text>
-        <Text style={[GlobalStyles.textSmall, { width: 300, fontSize: 16 }]}>
-          Have a better sharing experience
-        </Text>
+        >{translationText.welcome.welcome}</Text>
+        <Text style={[GlobalStyles.textSmall, { width: 300, fontSize: 16 }]}>{translationText.welcome.heading}</Text>
       </View>
       <View style={{ width: "100%", rowGap: 16 }}>
         <Pressable
@@ -38,16 +35,14 @@ const WelcomeScreen = () => {
           onPress={() => navigation.navigate("Signup")}
         >
           <Text style={[GlobalStyles.textMedium, { color: "white" }]}>
-            Create an account
+            {translationText.welcome.signup}
           </Text>
         </Pressable>
         <Pressable
           style={GlobalStyles.buttonSecondary}
           onPress={() => navigation.navigate("Login")}
         >
-          <Text style={[GlobalStyles.textMedium, { color: "#E94B3C" }]}>
-            Log In
-          </Text>
+          <Text style={[GlobalStyles.textMedium, { color: "#E94B3C" }]}>{translationText.welcome.login}</Text>
         </Pressable>
       </View>
     </View>

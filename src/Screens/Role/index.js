@@ -5,17 +5,22 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useDispatch } from "react-redux";
 import { setRole } from "../../../redux/slicers/userSlicer";
+import { useNavigation } from "@react-navigation/native";
 
 const RoleScreen = () => {
-  const [selectedRole, setSelectedRole] = useState(null);
-  const dispatch = useDispatch();
+  const [selectedRole, setSelectedRole] = useState(null)
+  const navigation = useNavigation();
 
   const handleRoleSelection = (role) => {
     setSelectedRole(role);
   };
 
   const handleRoleSubmit = () => {
-    dispatch(setRole(selectedRole));
+    if(selectedRole == "Drive"){
+      navigation.navigate("DriverOnboard");
+    }else{
+      navigation.navigate("UserOnboard");
+    }
   };
 
   return (

@@ -12,7 +12,7 @@ const ServicesScreen = () => {
   };
   return (
     <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
-       <Pressable
+       {/* <Pressable
         style={[
           GlobalStyles.buttonPrimary,
           {width: "80%" },
@@ -22,7 +22,8 @@ const ServicesScreen = () => {
         <Text style={[GlobalStyles.textMedium, { color: "white" }]}>
           Reset App
         </Text>
-      </Pressable>
+      </Pressable> */}
+      <Text>This is coming up soon.</Text>
     </View>
   )
 }

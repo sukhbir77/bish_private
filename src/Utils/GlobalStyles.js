@@ -16,6 +16,7 @@ export default StyleSheet.create({
     fontSize: 14,
     color: "#A0A0A0",
     textAlign: "center",
+    marginBottom: 16
   },
   textSmallSize: {
     fontSize: 14,

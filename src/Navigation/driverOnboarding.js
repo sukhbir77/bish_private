@@ -3,9 +3,9 @@ import {
   createStackNavigator,
   CardStyleInterpolators,
 } from "@react-navigation/stack";
-import BasicInformation from '../Screens/DriverOnboarding/BasicInformation/index';
-import ImageCollection from '../Screens/DriverOnboarding/ImageCollection/index';
-import ThirdScreen from '../Screens/DriverOnboarding/ThirdScreen/index';
+import BasicInformation from "../Screens/DriverOnboarding/BasicInformation/index";
+import ImageCollection from "../Screens/DriverOnboarding/ImageCollection/index";
+import ThirdScreen from "../Screens/DriverOnboarding/ThirdScreen/index";
 
 const Stack = createStackNavigator();
 

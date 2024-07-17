@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, Image, Pressable } from "react-native";
 import React from "react";
 import GlobalStyles from "../../../Utils/GlobalStyles";
 import { useNavigation } from "@react-navigation/native";
+import translationText from '../../../Utils/translations';
 
 const OnboardingScreenOne = () => {
   const navigation = useNavigation();
@@ -19,7 +20,7 @@ const OnboardingScreenOne = () => {
           style={{ position: "absolute", right: 0, top: 42 }}
           onPress={() => console.log("Skip")}
         >
-          <Text style={GlobalStyles.textSmallSize}>Skip</Text>
+          <Text style={GlobalStyles.textSmallSize}>{translationText.onboarding.skip}</Text>
         </Pressable>
         <Image
           source={require("../../../../assets/images/onboarding/anywhere.png")}
@@ -30,10 +31,7 @@ const OnboardingScreenOne = () => {
         >
           Anywhere you are
         </Text>
-        <Text style={[GlobalStyles.textSmall, {width: 300}]}>
-          Enjoy quick and reliable rides to any destination, anytime.Let's get
-          you moving!
-        </Text>
+        <Text style={[GlobalStyles.textSmall, {width: 300}]}>{translationText.onboarding.screenOne}</Text>
       </View>
       <Pressable style={{ height: "20%" }} onPress={() => navigation.navigate("OnboardingScreenTwo")}>
         <Image

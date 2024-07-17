@@ -4,6 +4,7 @@ import GlobalStyles from "../../../Utils/GlobalStyles";
 import { useNavigation } from "@react-navigation/native";
 import { setFirstTime } from "../../../../redux/slicers/userSlicer";
 import { useDispatch } from "react-redux";
+import translationText from "../../../Utils/translations";
 
 const OnboardingScreenThree = () => {
   const navigation = useNavigation();
@@ -21,7 +22,7 @@ const OnboardingScreenThree = () => {
           style={{ position: "absolute", right: 0, top: 42 }}
           onPress={() => console.log("Skip")}
         >
-          <Text style={GlobalStyles.textSmallSize}>Skip</Text>
+          <Text style={GlobalStyles.textSmallSize}>{translationText.onboarding.skip}</Text>
         </Pressable>
         <Image
           source={require("../../../../assets/images/onboarding/book2.png")}
@@ -32,10 +33,7 @@ const OnboardingScreenThree = () => {
         >
           Book your Ride
         </Text>
-        <Text style={[GlobalStyles.textSmall, { width: 300 }]}>
-          Ready to go? Booking your ride is fast and easy. Choose between a car
-          or motorcycle, set your destination, and you're all set.
-        </Text>
+        <Text style={[GlobalStyles.textSmall, { width: 300 }]}>{translationText.onboarding.screenThree}</Text>
       </View>
       <Pressable
         style={{ height: "20%" }}

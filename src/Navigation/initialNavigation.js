@@ -1,40 +1,30 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 import React from "react";
 import { useSelector } from "react-redux";
-import HomeNavigation from "./homeNavigation";
 import AuthNavigation from "./authNavigation";
-import RoleScreen from "../Screens/Role/index";
-import DriverOnboarding from "./driverOnboarding";
-import DriverHomeScreen from "../Screens/DriverHome";
-import OnboardingNavigation from "./OnboardingNavigation";
-import {
-  selectUser,
-  selectFirstTime,
-  selectIsOnboarded,
-  selectRole,
-} from "../../redux/slicers/userSlicer";
+import { selectUser, selectFirstTime } from "../../redux/slicers/userSlicer";
+import FirstTimeScreens from "./firstTimeScreens";
+import Onboarding from "./Onboarding";
+import UserHome from "./userHome";
+import DriverHome from "./driverHome";
 
 const InitialNavigation = () => {
   const user = useSelector(selectUser);
-  const role = useSelector(selectRole);
-  const isOnboarded = useSelector(selectIsOnboarded);
   const isFirstTime = useSelector(selectFirstTime);
 
-  console.log(isFirstTime, role, isOnboarded);
+  console.log(user);
 
   return isFirstTime ? (
-    <OnboardingNavigation />
+    <FirstTimeScreens />
   ) : user ? (
-    role ? (
-      role == "Ride" ? (
-        <HomeNavigation />
-      ) : !isOnboarded ? (
-        <DriverOnboarding />
+    user.role !== null ? (
+      user.role === "Driver" ? (
+        <DriverHome />
       ) : (
-        <DriverHomeScreen />
+        <UserHome />
       )
     ) : (
-      <RoleScreen />
+      <Onboarding />
     )
   ) : (
     <AuthNavigation />
@@ -43,4 +33,11 @@ const InitialNavigation = () => {
 
 export default InitialNavigation;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
+  },
+});

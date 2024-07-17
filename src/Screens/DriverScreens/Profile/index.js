@@ -9,9 +9,9 @@ import {
   ScrollView,
   ActivityIndicator
 } from "react-native";
-import { auth, db } from "../../../firebaseConfig";
+import { auth, db } from "../../../../firebaseConfig";
 import { useDispatch } from "react-redux";
-import { clearUser } from "../../../redux/slicers/userSlicer";
+import { clearUser } from "../../../../redux/slicers/userSlicer";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { doc, getDoc } from "firebase/firestore";

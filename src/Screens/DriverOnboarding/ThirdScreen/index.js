@@ -1,25 +1,53 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
-import { setOnboarded } from '../../../../redux/slicers/userSlicer';
-import { useDispatch } from 'react-redux';
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
-import { db } from '../../../../firebaseConfig'; // Adjust the path to your firebaseConfig file
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { getFirestore, doc, setDoc } from "firebase/firestore";
+import { db } from "../../../../firebaseConfig"; // Adjust the path to your firebaseConfig file
+import {
+  selectUser,
+  setOnboarded,
+  setUser,
+} from "../../../../redux/slicers/userSlicer";
 
 const ThirdScreen = ({ navigation, route }) => {
-  const { fullName, phoneNumber, licenseImage, insuranceImage, gender, age, city, addressLine1, country, postalCode, state } = route.params;
-  const [carMake, setCarMake] = useState('');
-  const [carModel, setCarModel] = useState('');
-  const [carYear, setCarYear] = useState('');
+  const {
+    fullName,
+    phoneNumber,
+    licenseImage,
+    insuranceImage,
+    gender,
+    age,
+    city,
+    addressLine1,
+    country,
+    postalCode,
+    state,
+  } = route.params;
+  const [carMake, setCarMake] = useState("");
+  const [carModel, setCarModel] = useState("");
+  const [carYear, setCarYear] = useState("");
   const dispatch = useDispatch();
+  const user = useSelector(selectUser);
 
   const handleNext = async () => {
     if (!carMake || !carModel || !carYear) {
-      Alert.alert('Error', 'All fields are required!');
+      Alert.alert("Error", "All fields are required!");
       return;
     }
 
     try {
-      await addDoc(collection(db, 'users'), {
+      // Create a document reference with the user.uid
+      const userDocRef = doc(db, "users", user.uid);
+
+      // Set the document with the user data
+      await setDoc(userDocRef, {
         fullName,
         phoneNumber,
         gender,
@@ -34,13 +62,16 @@ const ThirdScreen = ({ navigation, route }) => {
         carMake,
         carModel,
         carYear,
+        role: "Driver",
       });
 
-      dispatch(setOnboarded(true));
-      //navigation.navigate('Home'); // Adjust navigation as needed
+      // Update the user object and set it in the Redux store
+      const userCopy = JSON.parse(JSON.stringify(user));
+      userCopy.role = "Driver";
+      dispatch(setUser(userCopy));
     } catch (error) {
-      console.error('Error adding document: ', error);
-      Alert.alert('Error', 'Something went wrong while saving your data.');
+      console.error("Error adding document: ", error);
+      Alert.alert("Error", "Something went wrong while saving your data.");
     }
   };
 
@@ -50,7 +81,7 @@ const ThirdScreen = ({ navigation, route }) => {
         <Text style={styles.title}>Car Details</Text>
       </View>
       <View style={styles.progressContainer}>
-        <View style={[styles.progressBar, { width: '100%' }]} />
+        <View style={[styles.progressBar, { width: "100%" }]} />
       </View>
       <TextInput
         style={styles.input}
@@ -84,35 +115,35 @@ const ThirdScreen = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     paddingHorizontal: 30,
     paddingTop: 20,
   },
   header: {
     marginTop: 24,
     marginBottom: 20,
-    alignItems: 'center',
+    alignItems: "center",
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
-    textAlign: 'center',
+    fontWeight: "bold",
+    color: "#333",
+    textAlign: "center",
   },
   progressContainer: {
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'center',
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "center",
     marginBottom: 20,
   },
   progressBar: {
     height: 5,
-    backgroundColor: '#E94B3C',
+    backgroundColor: "#E94B3C",
   },
   input: {
-    width: '100%',
+    width: "100%",
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     borderRadius: 10,
     paddingVertical: 12,
     paddingHorizontal: 20,
@@ -120,22 +151,21 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   button: {
-    backgroundColor: '#E94B3C',
+    backgroundColor: "#E94B3C",
     paddingVertical: 16,
-    paddingHorizontal: 100,
     borderRadius: 10,
   },
   nextButton: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 32,
-    width: '80%',
-    alignSelf: 'center',
+    width: "80%",
+    alignSelf: "center",
   },
   buttonText: {
     fontSize: 18,
-    fontWeight: 'bold',
-    color: '#fff',
-    textAlign: 'center',
+    fontWeight: "bold",
+    color: "#fff",
+    textAlign: "center",
   },
 });
 
